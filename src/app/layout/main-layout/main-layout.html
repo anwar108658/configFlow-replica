@@ -1,1 +1,144 @@
-<p>main-layout works!</p>
+<div class="min-h-screen bg-(--cf-page) text-(--cf-ink) transition-colors" [class.dark-theme]="darkMode()">
+	<app-sidebar
+		[activeSection]="activeSection()"
+		[open]="sidebarOpen()"
+		(sectionChange)="setSection($event)"
+		(close)="sidebarOpen.set(false)"
+	/>
+	<div class="ml-0 min-h-screen min-[821px]:ml-62">
+		<app-header
+			[pageTitle]="pageTitle()"
+			[darkMode]="darkMode()"
+			(menuClick)="sidebarOpen.set(true)"
+			(themeToggle)="darkMode.update((dark) => !dark)"
+			(queryChange)="setQuery($event)"
+		/>
+		<main class="mx-auto w-full max-w-[1540px] px-3.5 pb-9 pt-5 sm:px-5 sm:pb-11 sm:pt-6.5 lg:px-8 lg:pb-13.5 lg:pt-7.75">
+			@if (activeSection() === 'Dashboard') {
+				<section class="mb-5 flex flex-col gap-3.5 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+					<div>
+						<span class="text-[10px] font-bold tracking-[.09em] text-(--cf-primary)">WORKSPACE OVERVIEW</span>
+						<h1 class="my-1.25 text-[22px] font-bold leading-tight text-(--cf-ink) sm:text-[25px]">Good morning, Alex</h1>
+						<p class="text-xs leading-relaxed text-(--cf-muted)">Manage your configurations and workflows from one place.</p>
+					</div>
+					<div class="flex w-full gap-2 sm:w-auto">
+						<button z-button variant="secondary" class="flex-1 sm:flex-none" (click)="setSection('Activity')">
+							<ng-icon name="lucideActivity" size="16" /> View activity
+						</button>
+						<button z-button class="flex-1 sm:flex-none" (click)="setSection('Configurations')">
+							<ng-icon name="lucidePlus" size="17" /> Create configuration
+						</button>
+					</div>
+				</section>
+
+				<section class="mb-5 grid grid-cols-1 gap-2.25 min-[601px]:grid-cols-2 min-[1101px]:grid-cols-4 sm:gap-3.25" aria-label="Workspace metrics">
+					@for (metric of metrics; track metric.label) {
+						<article class="min-w-0 rounded-[7px] border border-(--cf-border) bg-(--cf-surface) p-[14px_15px] shadow-sm sm:p-[16px_17px_14px]">
+							<div class="flex items-center justify-between gap-2 text-[11px] font-medium text-(--cf-muted)"><span>{{ metric.label }}</span><ng-icon class="text-(--cf-faint)" [name]="metric.icon" size="18" /></div>
+							<div class="my-3.25 text-[28px] font-bold leading-none text-(--cf-ink)">{{ metric.value }}</div>
+							<div class="flex flex-wrap items-center justify-between gap-1.25 text-[9px] text-(--cf-faint)">
+								<span class="font-medium" [class.text-emerald-700]="metric.trend === 'positive'" [class.text-amber-700]="metric.trend === 'warning'">{{ metric.note }}</span>
+								<span>{{ metric.meta }}</span>
+							</div>
+						</article>
+					}
+				</section>
+
+					<section class="overflow-hidden rounded-[7px] border border-(--cf-border) bg-(--cf-surface) shadow-sm">
+					<div class="flex min-h-16.75 items-center justify-between gap-3.5 border-b border-(--cf-border) px-3.25 py-3 sm:px-4.25">
+						<div><h2 class="mb-1 text-[13px] font-semibold text-(--cf-ink)">Recent configurations</h2><p class="text-xs leading-relaxed text-(--cf-muted)">Configurations updated across your workspace.</p></div>
+						<button z-button variant="ghost" class="gap-1 text-[11px]" (click)="setSection('Configurations')">
+							View all <ng-icon name="lucideChevronRight" size="15" />
+						</button>
+					</div>
+					<div class="w-full overflow-x-auto">
+						<table class="w-full border-collapse whitespace-nowrap text-[11px]">
+							<thead><tr><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Configuration</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Environment</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Owner</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Status</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Last updated</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Version</th><th aria-label="Actions" class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25"></th></tr></thead>
+							<tbody>
+								@for (configuration of filteredConfigurations().slice(0, activeSection() === 'Dashboard' ? 4 : 5); track configuration.name) {
+									<tr class="hover:bg-(--cf-hover)">
+										<td>
+											<button class="flex items-center gap-2.25 text-left" (click)="setSection('Configurations')">
+												<span class="grid h-7.5 w-7.5 shrink-0 place-items-center rounded-md border border-(--cf-border) bg-(--cf-primary-soft) text-(--cf-primary)"><ng-icon name="lucideLayers" size="17" /></span>
+												<span class="flex flex-col gap-0.75"><strong class="text-[11px] font-semibold text-(--cf-ink)">{{ configuration.name }}</strong><small class="text-[9px] text-(--cf-muted)">{{ configuration.description }}</small></span>
+											</button>
+										</td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25 text-(--cf-ink)"><span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full" [class.bg-emerald-600]="configuration.environment === 'Production'" [class.bg-amber-600]="configuration.environment === 'Staging'" [class.bg-sky-600]="configuration.environment === 'Development'"></span>{{ configuration.environment }}</td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><span class="flex items-center gap-1.75"><span class="grid h-6.75 w-6.75 shrink-0 place-items-center rounded-full bg-(--cf-primary-soft) text-[9px] font-bold text-(--cf-primary)">{{ configuration.initials }}</span>{{ configuration.owner }}</span></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><span class="inline-flex items-center gap-1 rounded-full border border-(--cf-border) bg-(--cf-hover) px-2 py-1 text-[9px] font-semibold text-(--cf-muted)"><i class="h-1.5 w-1.5 rounded-full" [class.bg-emerald-600]="configuration.status === 'Active'" [class.bg-amber-600]="configuration.status === 'Pending'" [class.bg-rose-600]="configuration.status === 'Failed'"></i>{{ configuration.status }}</span></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25 text-(--cf-muted)">{{ configuration.updated }}</td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><code class="rounded bg-(--cf-hover) px-1.25 py-0.75 font-mono text-[10px] text-(--cf-muted)">{{ configuration.version }}</code></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><button z-button variant="ghost" class="h-7.5 w-7.5 p-0 text-(--cf-muted)" [attr.aria-label]="'Actions for ' + configuration.name"><ng-icon name="lucideEllipsis" size="18" /></button></td>
+									</tr>
+								} @empty {
+									<tr><td class="h-24 px-4 text-center text-(--cf-muted)" colspan="7">No configurations match this search.</td></tr>
+								}
+							</tbody>
+						</table>
+					</div>
+					@if (activeSection() !== 'Dashboard') {
+						<div class="flex justify-between border-t border-(--cf-border) px-4 py-3 text-[10px] text-(--cf-muted)"><span>Showing {{ filteredConfigurations().length }} configurations</span><span>Last synced just now</span></div>
+					}
+				</section>
+
+				@if (activeSection() === 'Dashboard') {
+					<div class="mt-5 grid grid-cols-1 gap-4.75 min-[1101px]:grid-cols-[1.05fr_.95fr]">
+						<section class="overflow-hidden rounded-[7px] border border-(--cf-border) bg-(--cf-surface) shadow-sm">
+							<div class="flex min-h-16.75 items-center justify-between gap-3.5 border-b border-(--cf-border) px-3.25 py-3 sm:px-4.25"><div><h2 class="mb-1 text-[13px] font-semibold text-(--cf-ink)">Recent activity</h2><p class="text-xs text-(--cf-muted)">Latest changes in your workspace.</p></div><button z-button variant="ghost" class="h-7.5 w-7.5 p-0" aria-label="Activity options"><ng-icon name="lucideEllipsis" size="18" /></button></div>
+							<div class="px-3.25 pb-2 pt-1 sm:px-4.25">
+								@for (activity of activities; track activity.title) {
+									<article class="grid min-h-16.75 grid-cols-[32px_minmax(0,1fr)_auto] items-start gap-2.25 pt-3.25 max-[600px]:grid-cols-[30px_minmax(0,1fr)]">
+										<span class="grid h-8 w-8 place-items-center rounded-full bg-(--cf-primary-soft) text-[10px] font-bold text-(--cf-primary)">{{ activity.initials }}</span>
+										<div class="min-w-0"><strong class="mb-1 block text-[10px] font-semibold text-(--cf-ink)">{{ activity.title }}</strong><p class="text-[9px] leading-relaxed text-(--cf-muted)">{{ activity.detail }}</p></div>
+										<time class="pt-0.5 text-[9px] text-(--cf-muted) whitespace-nowrap max-[600px]:col-start-2 max-[600px]:-mt-4">{{ activity.time }}</time>
+									</article>
+								}
+							</div>
+						</section>
+						<section class="overflow-hidden rounded-[7px] border border-(--cf-border) bg-(--cf-surface) shadow-sm">
+							<div class="flex min-h-16.75 items-center justify-between gap-3.5 border-b border-(--cf-border) px-3.25 py-3 sm:px-4.25"><div><h2 class="mb-1 text-[13px] font-semibold text-(--cf-ink)">Environment health</h2><p class="text-xs text-(--cf-muted)">Live status across environments.</p></div><span class="inline-flex items-center gap-1.5 text-[9px] font-semibold text-emerald-700 max-[600px]:hidden"><i class="h-1.5 w-1.5 rounded-full bg-emerald-600"></i>All systems operational</span></div>
+							@for (environment of environments; track environment.name; let index = $index) {
+								<div class="flex min-h-15.5 items-center justify-between gap-3 border-b border-(--cf-border) px-3.25 last:border-b-0 sm:px-4.25">
+									<div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-600 shadow-[0_0_0_3px_rgb(35_134_94/12%)]"></span><strong class="text-[10px] font-semibold text-(--cf-ink)">{{ environment.name }}</strong><span class="text-[9px] text-(--cf-muted)">{{ environment.configs }}</span></div>
+									<div class="flex flex-col items-end gap-0.75"><span class="text-[9px] text-(--cf-muted)">{{ environment.uptime }} uptime</span><strong class="text-[10px] font-semibold text-emerald-700">Healthy</strong></div>
+								</div>
+							}
+						</section>
+					</div>
+				}
+			} @else {
+				<section class="mb-5 flex flex-col gap-3.5 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+					<div>
+						<span class="text-[10px] font-bold tracking-[.09em] text-(--cf-primary)">CONFIGFLOW WORKSPACE</span>
+						<h1 class="my-1.25 text-[22px] font-bold leading-tight text-(--cf-ink) sm:text-[25px]">{{ activeSection() }}</h1>
+						<p class="text-xs leading-relaxed text-(--cf-muted)">Review and manage your {{ activeSection().toLowerCase() }} across the workspace.</p>
+					</div>
+					@if (activeSection() === 'Configurations') {
+						<div class="flex w-full sm:w-auto"><button z-button class="w-full sm:w-auto" (click)="setQuery('')"><ng-icon name="lucidePlus" size="17" /> Create configuration</button></div>
+					}
+				</section>
+				<section class="overflow-hidden rounded-[7px] border border-(--cf-border) bg-(--cf-surface) shadow-sm">
+					<div class="flex min-h-16.75 items-center justify-between gap-3.5 border-b border-(--cf-border) px-3.25 py-3 sm:px-4.25"><div><h2 class="mb-1 text-[13px] font-semibold text-(--cf-ink)">{{ activeSection() }} overview</h2><p class="text-xs text-(--cf-muted)">Recent configuration activity and status.</p></div><span class="text-[10px] text-(--cf-muted)">{{ filteredConfigurations().length }} records</span></div>
+					<div class="w-full overflow-x-auto">
+						<table class="w-full border-collapse whitespace-nowrap text-[11px]">
+							<thead><tr><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Configuration</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Environment</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Owner</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Status</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Last updated</th><th class="h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase">Version</th></tr></thead>
+							<tbody>
+								@for (configuration of filteredConfigurations(); track configuration.name) {
+									<tr class="hover:bg-(--cf-hover)">
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><span class="flex items-center gap-2.25"><span class="grid h-7.5 w-7.5 shrink-0 place-items-center rounded-md border border-(--cf-border) bg-(--cf-primary-soft) text-(--cf-primary)"><ng-icon name="lucideLayers" size="17" /></span><span class="flex flex-col gap-0.75"><strong class="text-[11px] font-semibold text-(--cf-ink)">{{ configuration.name }}</strong><small class="text-[9px] text-(--cf-muted)">{{ configuration.description }}</small></span></span></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25 text-(--cf-ink)"><span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full" [class.bg-emerald-600]="configuration.environment === 'Production'" [class.bg-amber-600]="configuration.environment === 'Staging'" [class.bg-sky-600]="configuration.environment === 'Development'"></span>{{ configuration.environment }}</td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><span class="flex items-center gap-1.75"><span class="grid h-6.75 w-6.75 shrink-0 place-items-center rounded-full bg-(--cf-primary-soft) text-[9px] font-bold text-(--cf-primary)">{{ configuration.initials }}</span>{{ configuration.owner }}</span></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25"><span class="inline-flex items-center gap-1 rounded-full border border-(--cf-border) bg-(--cf-hover) px-2 py-1 text-[9px] font-semibold text-(--cf-muted)"><i class="h-1.5 w-1.5 rounded-full" [class.bg-emerald-600]="configuration.status === 'Active'" [class.bg-amber-600]="configuration.status === 'Pending'" [class.bg-rose-600]="configuration.status === 'Failed'"></i>{{ configuration.status }}</span></td>
+										<td class="h-14.25 border-b border-(--cf-border) px-3.25 text-(--cf-muted)">{{ configuration.updated }}</td><td class="h-14.25 border-b border-(--cf-border) px-3.25"><code class="rounded bg-(--cf-hover) px-1.25 py-0.75 font-mono text-[10px] text-(--cf-muted)">{{ configuration.version }}</code></td>
+									</tr>
+								} @empty {
+									<tr><td class="h-24 px-4 text-center text-(--cf-muted)" colspan="6">No configurations match this search.</td></tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			}
+		</main>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-import type { ZardI18nInterface } from '@/shared/components/i18n.types';
+import type { ZardI18nInterface } from '@/shared/core/i18n/i18n.types';
 import { de_DE } from './de-de';
 import { en_US } from './en-us';
 import { es_ES } from './es-es';

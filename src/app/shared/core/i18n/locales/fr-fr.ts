@@ -1,4 +1,4 @@
-import type { ZardI18nInterface } from '@/shared/components/i18n.types';
+import type { ZardI18nInterface } from '@/shared/core/i18n/i18n.types';
 
 export const fr_FR: ZardI18nInterface = {
   locale: 'fr-FR',

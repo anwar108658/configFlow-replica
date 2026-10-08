@@ -1,0 +1,63 @@
+.topbar {
+	position: sticky;
+	z-index: 30;
+	top: 0;
+	display: flex;
+	height: 66px;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+	padding: 0 30px;
+	border-bottom: 1px solid var(--cf-border);
+	background: color-mix(in srgb, var(--cf-surface) 94%, transparent);
+	backdrop-filter: blur(12px);
+}
+
+.header-left, .header-actions, .breadcrumbs { display: flex; align-items: center; }
+.header-left { gap: 7px; }
+.breadcrumbs { gap: 8px; color: var(--cf-faint); font-size: 12px; }
+.breadcrumbs strong { color: var(--cf-ink); font-weight: 600; }
+.header-actions { gap: 5px; }
+.menu-button { display: none; }
+
+.global-search {
+	display: flex;
+	width: 244px;
+	height: 35px;
+	align-items: center;
+	gap: 8px;
+	margin-right: 8px;
+	padding: 0 9px;
+	border: 1px solid var(--cf-border);
+	border-radius: 6px;
+	background: var(--cf-page);
+	color: var(--cf-muted);
+}
+
+.global-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--cf-ink); font-size: 12px; }
+.global-search input::placeholder { color: var(--cf-faint); }
+kbd { flex: 0 0 auto; padding: 2px 5px; border: 1px solid var(--cf-border); border-radius: 4px; color: var(--cf-faint); font-size: 9px; }
+.icon-button { width: 34px; height: 34px; }
+.notification-button { position: relative; }
+.notification-dot { position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border: 1.5px solid var(--cf-surface); border-radius: 50%; background: var(--cf-primary); }
+.avatar { display: inline-grid; width: 32px; height: 32px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: #dcebe5; color: #245544; font-size: 10px; font-weight: 700; }
+.avatar-small { width: 27px; height: 27px; font-size: 9px; }
+.avatar-owner { background: #e1e7f4; color: #344d79; }
+.avatar-blue { background: #e1edf8; color: #35678a; }
+.avatar-teal { background: #d9efea; color: #246858; }
+.avatar-violet { background: #e9e3f3; color: #695180; }
+.avatar-rose { background: #f5e2e6; color: #91525f; }
+.avatar-amber { background: #f4ead9; color: #85602b; }
+.avatar-green { background: #deeee0; color: #3a6940; }
+
+@media (max-width: 820px) {
+	.topbar { padding: 0 19px; }
+	.menu-button { display: inline-grid; width: 34px; height: 34px; }
+}
+
+@media (max-width: 600px) {
+	.topbar { height: 58px; gap: 8px; padding: 0 12px; }
+	.header-actions { gap: 1px; }
+	.global-search, .breadcrumbs > span, .breadcrumbs > ng-icon, .header-actions > .icon-button:nth-of-type(2), .notification-button { display: none; }
+	.breadcrumbs { font-size: 11px; }
+}

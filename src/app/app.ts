@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { MainLayout } from './layout/main-layout/main-layout';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [MainLayout],
   selector: 'app-root',
   styleUrl: './app.css',
-  templateUrl: './app.html',
+  template: '<app-main-layout />',
 })
 export class App {
-  protected readonly title = signal('mirror-configFlow');
 }

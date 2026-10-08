@@ -1,6 +1,6 @@
 @layer ng-icon, theme, base, components, utilities;
 @import 'tailwindcss';
-@import './app/shared/core/css/tailwind';
+@import './app/shared/core/css/zard.css';
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
@@ -153,3 +153,73 @@
   border-radius: 5px;
   background: var(--muted);
 }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Aptos', 'Segoe UI', sans-serif;
+}
+
+:root {
+  --cf-page: #f5f7f5;
+  --cf-surface: #fff;
+  --cf-hover: #f0f3f0;
+  --cf-border: #e2e8e2;
+  --cf-border-strong: #cbd5ce;
+  --cf-ink: #1c2924;
+  --cf-muted: #66756d;
+  --cf-faint: #93a098;
+  --cf-primary: #28745a;
+  --cf-primary-dark: #1e6049;
+  --cf-primary-soft: #e8f2ed;
+  --cf-success: #23865e;
+  --cf-warning: #b77928;
+  --cf-danger: #bd4f4a;
+}
+
+.dark-theme {
+  --cf-page: #121a17;
+  --cf-surface: #1b2621;
+  --cf-hover: #25322c;
+  --cf-border: #304139;
+  --cf-border-strong: #41534a;
+  --cf-ink: #edf3ef;
+  --cf-muted: #b0bdb5;
+  --cf-faint: #809188;
+  --cf-primary: #70b899;
+  --cf-primary-dark: #85c6a7;
+  --cf-primary-soft: #263b31;
+  --cf-success: #7bc29c;
+  --cf-warning: #e2b66d;
+  --cf-danger: #e28c83;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.z-button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--cf-primary, #28745a);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.z-button:hover { background: var(--cf-primary-dark, #1e6049); }
+.z-button:focus-visible { outline: 2px solid color-mix(in srgb, var(--cf-primary, #28745a) 38%, transparent); outline-offset: 2px; }
+.z-button:disabled { cursor: not-allowed; opacity: .55; }
+.z-button-secondary { border-color: var(--cf-border-strong, #cbd5ce); background: var(--cf-surface, #fff); color: var(--cf-ink, #1c2924); }
+.z-button-secondary:hover { border-color: var(--cf-faint, #93a098); background: var(--cf-hover, #f0f3f0); }
+.z-button-ghost { background: transparent; color: var(--cf-muted, #66756d); }
+.z-button-ghost:hover { background: var(--cf-hover, #f0f3f0); color: var(--cf-ink, #1c2924); }

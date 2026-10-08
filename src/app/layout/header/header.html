@@ -1,1 +1,30 @@
-<p>header works!</p>
+<header class="topbar">
+	<div class="header-left">
+		<button z-button variant="ghost" class="menu-button" aria-label="Open navigation" (click)="menuClick.emit()">
+			<ng-icon name="lucideMenu" size="19" />
+		</button>
+		<div class="breadcrumbs">
+			<span>ConfigFlow</span>
+			<ng-icon name="lucideChevronRight" size="14" />
+			<strong>{{ pageTitle }}</strong>
+		</div>
+	</div>
+	<div class="header-actions">
+		<label class="global-search">
+			<ng-icon name="lucideSearch" size="17" />
+			<input aria-label="Search configurations" placeholder="Search anything..." (input)="queryChange.emit($any($event.target).value)" />
+			<kbd>Ctrl K</kbd>
+		</label>
+		<button z-button variant="ghost" class="icon-button" aria-label="Toggle theme" (click)="themeToggle.emit()">
+			<ng-icon [name]="darkMode ? 'lucideSun' : 'lucideMoon'" size="18" />
+		</button>
+		<button z-button variant="ghost" class="icon-button" aria-label="Help">
+			<ng-icon name="lucideCircleHelp" size="18" />
+		</button>
+		<button z-button variant="ghost" class="icon-button notification-button" aria-label="Notifications">
+			<ng-icon name="lucideBell" size="18" />
+			<span class="notification-dot"></span>
+		</button>
+		<span class="avatar avatar-owner avatar-small">AJ</span>
+	</div>
+</header>
