@@ -1,53 +1,17 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideMotionConfig } from '@scripttype/ng-motion';
 import { routes } from './app.routes';
 import { provideZard } from '@/shared/core/provider/providezard';
 import { provideIcons } from '@ng-icons/core';
-import {
-  lucideActivity,
-  lucideArrowUpRight,
-  lucideBell,
-  lucideBot,
-  lucideChevronRight,
-  lucideCircleHelp,
-  lucideEllipsis,
-  lucideGlobe2,
-  lucideLayers,
-  lucideLayoutDashboard,
-  lucideMenu,
-  lucideMoon,
-  lucidePlus,
-  lucideSearch,
-  lucideSettings,
-  lucideShieldCheck,
-  lucideSun,
-  lucideWorkflow,
-} from '@ng-icons/lucide';
+import * as allIcon from '@ng-icons/lucide';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    provideMotionConfig({ transition: { duration: 0.24, ease: 'easeOut' }, reducedMotion: 'user' }),
     provideZard(),
-    provideIcons({
-      lucideActivity,
-      lucideArrowUpRight,
-      lucideBell,
-      lucideBot,
-      lucideChevronRight,
-      lucideCircleHelp,
-      lucideEllipsis,
-      lucideGlobe2,
-      lucideLayers,
-      lucideLayoutDashboard,
-      lucideMenu,
-      lucideMoon,
-      lucidePlus,
-      lucideSearch,
-      lucideSettings,
-      lucideShieldCheck,
-      lucideSun,
-      lucideWorkflow,
-    }),
+    provideIcons(allIcon),
   ]
 };

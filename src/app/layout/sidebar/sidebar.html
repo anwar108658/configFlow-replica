@@ -1,16 +1,30 @@
-@if (open) {
-	<button class="sidebar-scrim" aria-label="Close navigation" (click)="close.emit()"></button>
-}
-<aside class="sidebar" [class.sidebar-open]="open">
+<button
+	class="sidebar-scrim transition-opacity duration-200 ease-out motion-reduce:transition-none"
+	ngmMotion
+	[initial]="scrimClosed"
+	[animate]="open ? scrimOpen : scrimClosed"
+	[class.sidebar-scrim-open]="open"
+	[attr.aria-hidden]="open ? 'false' : 'true'"
+	[disabled]="!open"
+	[attr.tabindex]="open ? 0 : -1"
+	aria-label="Close navigation"
+	(click)="close.emit()"
+></button>
+<aside class="sidebar transition-transform duration-300 ease-out motion-reduce:transition-none" [class.sidebar-open]="open">
 	<a class="brand" href="#" (click)="$event.preventDefault(); sectionChange.emit('Dashboard'); close.emit()">
-		<span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+		<span>
+			<img src="logo.png" alt="" width="40" />
+		</span>
 		<span>ConfigFlow</span>
 	</a>
 	<nav class="nav-list" aria-label="Workspace navigation">
 		<span class="nav-label">Workspace</span>
 		@for (item of navigation; track item.label) {
 			<button
-				class="z-button z-button-ghost nav-item"
+				class="z-button z-button-ghost nav-item transition-colors duration-150 ease-out active:scale-[.98] motion-reduce:transition-none"
+				ngmMotion
+				[whileHover]="navHover"
+				[whileTap]="navTap"
 				[class.active]="activeSection === item.label"
 				[attr.aria-current]="activeSection === item.label ? 'page' : null"
 				(click)="sectionChange.emit(item.label); close.emit()"
@@ -21,7 +35,7 @@
 			</button>
 		}
 	</nav>
-	<button class="z-button z-button-secondary workspace-card">
+	<button class="z-button z-button-secondary workspace-card" ngmMotion [whileHover]="navHover" [whileTap]="navTap">
 		<span class="workspace-icon"><ng-icon name="lucideGlobe2" size="16" /></span>
 		<span class="workspace-copy"><strong>Acme workspace</strong><small>Enterprise plan</small></span>
 		<ng-icon name="lucideChevronRight" size="15" />
@@ -29,7 +43,7 @@
 	<div class="sidebar-profile">
 		<span class="avatar avatar-owner">AJ</span>
 		<span class="profile-copy"><strong>Alex Johnson</strong><small>Administrator</small></span>
-		<button class="z-button z-button-ghost profile-menu" aria-label="Profile menu">
+		<button class="z-button z-button-ghost profile-menu" ngmMotion [whileHover]="navHover" [whileTap]="navTap" aria-label="Profile menu">
 			<ng-icon name="lucideEllipsis" size="18" />
 		</button>
 	</div>

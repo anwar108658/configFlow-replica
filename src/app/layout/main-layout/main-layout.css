@@ -1,0 +1,115 @@
+@reference "../../../styles.css";
+
+.main-layout {
+	@apply min-h-screen bg-(--cf-page) text-(--cf-ink) transition-colors duration-200;
+}
+
+.main-layout__content { @apply min-h-screen; }
+.main-layout__main { @apply mx-auto w-full max-w-[1540px] px-3.5 pb-9 pt-5; }
+
+.page-heading {
+	@apply mb-5 flex flex-col items-start justify-between gap-3.5;
+}
+
+.page-heading__eyebrow { @apply text-[10px] font-bold tracking-[.09em] text-(--cf-primary); }
+.page-heading__title { @apply my-1.25 text-[22px] font-bold leading-[1.2] text-(--cf-ink); }
+.page-heading__description { @apply text-xs leading-relaxed text-(--cf-muted); }
+.page-heading__actions { @apply flex w-full gap-2; }
+.page-heading__actions > button { @apply flex-1; }
+.page-heading__single-action { @apply w-full; }
+.page-heading__single-action > button { @apply w-full; }
+
+.metrics-grid { @apply mb-5 grid grid-cols-1 gap-2.25; }
+.metric-card { @apply min-w-0 rounded-[7px] border border-(--cf-border) bg-(--cf-surface) p-[14px_15px] shadow-sm; }
+.metric-card__label { @apply flex items-center justify-between gap-2 text-[11px] font-medium text-(--cf-muted); }
+.metric-card__icon { @apply text-(--cf-faint); }
+.metric-card__value { @apply my-3.25 text-[28px] font-bold leading-none text-(--cf-ink); }
+.metric-card__footer { @apply flex flex-wrap items-center justify-between gap-1.25 text-[9px] text-(--cf-faint); }
+.metric-card__note { @apply font-medium; }
+.metric-card__note--positive { @apply text-[#087443]; }
+.metric-card__note--warning { @apply text-[#9a5b00]; }
+
+.content-panel { @apply overflow-hidden rounded-[7px] border border-(--cf-border) bg-(--cf-surface) shadow-sm; }
+.panel-header { @apply flex min-h-16.75 items-center justify-between gap-3.5 border-b border-(--cf-border) px-3.25 py-3; }
+.panel-header h2 { @apply mb-1 text-[13px] font-semibold text-(--cf-ink); }
+.panel-header p { @apply text-xs leading-relaxed text-(--cf-muted); }
+.panel-header__action { @apply gap-1 text-[11px] text-(--cf-muted); }
+.record-count { @apply text-[10px] text-(--cf-muted); }
+.table-scroll { @apply w-full overflow-x-auto; }
+.configuration-table { @apply w-full border-collapse whitespace-nowrap text-[11px]; }
+.configuration-table th { @apply h-9.25 border-b border-(--cf-border) bg-(--cf-hover) px-3.25 text-left text-[9px] font-bold tracking-[.04em] text-(--cf-faint) uppercase; }
+.configuration-table td { @apply h-14.25 border-b border-(--cf-border) px-3.25; }
+.configuration-table tbody tr:hover { @apply bg-(--cf-hover); }
+.configuration-table tbody tr:last-child td { @apply border-b-0; }
+.configuration-table button.configuration-cell { @apply flex items-center gap-2.25 text-left; }
+.configuration-icon { @apply grid h-7.5 w-7.5 shrink-0 place-items-center rounded-md border border-(--cf-border) bg-(--cf-primary-soft) text-(--cf-primary); }
+.configuration-name { @apply flex flex-col gap-0.75; }
+.configuration-name strong { @apply text-[11px] font-semibold text-(--cf-ink); }
+.configuration-name small { @apply text-[9px] text-(--cf-muted); }
+.environment-cell { @apply text-(--cf-ink); }
+.environment-indicator, .status-badge i { @apply mr-1.5 inline-block h-1.5 w-1.5 rounded-full; }
+.environment-indicator--production, .status-indicator--active { @apply bg-emerald-600; }
+.environment-indicator--staging, .status-indicator--pending { @apply bg-amber-600; }
+.environment-indicator--development { @apply bg-sky-600; }
+.status-indicator--failed { @apply bg-rose-600; }
+.owner-cell { @apply flex items-center gap-1.75; }
+.owner-initials { @apply grid h-6.75 w-6.75 shrink-0 place-items-center rounded-full bg-(--cf-primary-soft) text-[9px] font-bold text-(--cf-primary); }
+.status-badge { @apply inline-flex items-center gap-1 rounded-full border border-(--cf-border) bg-(--cf-hover) px-2 py-1 text-[9px] font-semibold text-(--cf-muted); }
+.status-badge i { @apply m-0; }
+.muted-cell { @apply text-(--cf-muted); }
+.version-code { @apply rounded bg-(--cf-hover) px-1.25 py-0.75 font-mono text-[10px] text-(--cf-muted); }
+.row-action { @apply h-7.5 w-7.5 p-0 text-(--cf-muted); }
+.empty-state { @apply h-24 px-4 text-center text-(--cf-muted); }
+.panel-footer { @apply flex justify-between border-t border-(--cf-border) px-4 py-3 text-[10px] text-(--cf-muted); }
+
+.dashboard-lower-grid { @apply mt-5 grid grid-cols-1 gap-4.75; }
+.activity-list { @apply px-3.25 pb-2 pt-1; }
+.activity-item { @apply grid min-h-16.75 grid-cols-[32px_minmax(0,1fr)_auto] items-start gap-2.25 pt-3.25; }
+.activity-item__initials { @apply grid h-8 w-8 place-items-center rounded-full bg-(--cf-primary-soft) text-[10px] font-bold text-(--cf-primary); }
+.activity-item__copy { @apply min-w-0; }
+.activity-item__copy strong { @apply mb-1 block text-[10px] font-semibold text-(--cf-ink); }
+.activity-item__copy p { @apply text-[9px] leading-relaxed text-(--cf-muted); }
+.activity-item time { @apply whitespace-nowrap pt-0.5 text-[9px] text-(--cf-muted); }
+.health-summary { @apply inline-flex items-center gap-1.5 text-[9px] font-semibold text-emerald-700; }
+.health-summary i, .environment-row__name > span:first-child { @apply h-1.5 w-1.5 rounded-full bg-emerald-600; }
+.environment-row { @apply flex min-h-15.5 items-center justify-between gap-3 border-b border-(--cf-border) px-3.25; }
+.environment-row:last-child { @apply border-b-0; }
+.environment-row__name { @apply flex items-center gap-2; }
+.environment-row__name > span:first-child { @apply shadow-[0_0_0_3px_rgb(35_134_94/12%)]; }
+.environment-row__name strong, .environment-row__health strong { @apply text-[10px] font-semibold text-(--cf-ink); }
+.environment-row__name > span:last-child, .environment-row__health > span { @apply text-[9px] text-(--cf-muted); }
+.environment-row__health { @apply flex flex-col items-end gap-0.75; }
+.environment-row__health strong { @apply text-emerald-700; }
+
+@media (min-width: 601px) {
+	.main-layout__main { @apply px-5 pb-11 pt-6.5; }
+	.page-heading { @apply mb-6 flex-row items-end gap-6; }
+	.page-heading__title { @apply text-[25px]; }
+	.page-heading__actions { @apply w-auto; }
+	.page-heading__actions > button { @apply flex-none; }
+	.page-heading__single-action { @apply w-auto; }
+	.page-heading__single-action > button { @apply w-auto; }
+	.metrics-grid { @apply grid-cols-2 gap-3.25; }
+	.metric-card { @apply p-[16px_17px_14px]; }
+	.panel-header { @apply px-4.25; }
+	.activity-list { @apply px-4.25; }
+	.environment-row { @apply px-4.25; }
+}
+
+@media (min-width: 821px) {
+	.main-layout__content { @apply ml-62; }
+}
+
+@media (min-width: 1101px) {
+	.main-layout__main { @apply px-8 pb-13.5 pt-7.75; }
+	.metrics-grid { @apply grid-cols-4 gap-3.25; }
+	.dashboard-lower-grid { @apply grid-cols-[1.05fr_.95fr]; }
+}
+
+@media (max-width: 600px) {
+	.page-heading__actions { @apply flex-row; }
+	.panel-header { @apply gap-2; }
+	.health-summary { @apply hidden; }
+	.activity-item { @apply grid-cols-[30px_minmax(0,1fr)]; }
+	.activity-item time { @apply col-start-2 -mt-4; }
+}

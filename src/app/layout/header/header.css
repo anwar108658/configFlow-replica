@@ -37,7 +37,7 @@
 .global-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--cf-ink); font-size: 12px; }
 .global-search input::placeholder { color: var(--cf-faint); }
 kbd { flex: 0 0 auto; padding: 2px 5px; border: 1px solid var(--cf-border); border-radius: 4px; color: var(--cf-faint); font-size: 9px; }
-.icon-button { width: 34px; height: 34px; }
+.icon-button { height: 34px; }
 .notification-button { position: relative; }
 .notification-dot { position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border: 1.5px solid var(--cf-surface); border-radius: 50%; background: var(--cf-primary); }
 .avatar { display: inline-grid; width: 32px; height: 32px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: #dcebe5; color: #245544; font-size: 10px; font-weight: 700; }

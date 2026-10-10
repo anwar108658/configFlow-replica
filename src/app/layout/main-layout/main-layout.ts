@@ -1,16 +1,32 @@
 import { Component, computed, signal } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
+import { NgmMotionDirective } from '@scripttype/ng-motion';
 import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 import { ZardButton } from '../../shared/components/button/button';
 
 @Component({
-  imports: [Header, Sidebar, NgIcon, ZardButton],
+  imports: [Header, Sidebar, NgIcon, NgmMotionDirective, ZardButton],
   selector: 'app-main-layout',
   styleUrl: './main-layout.css',
   templateUrl: './main-layout.html',
 })
 export class MainLayout {
+  readonly enterFrom = { opacity: 0, y: 10 };
+  readonly enterTo = { opacity: 1, y: 0 };
+  readonly sectionTransition = { duration: 0.28, ease: 'easeOut' } as const;
+  readonly cardHover = { y: -2 };
+  readonly buttonHover = { scale: 1.03 };
+  readonly buttonTap = { scale: 0.97 };
+  readonly metricContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.045, delayChildren: 0.04 } },
+  } as const;
+  readonly metricItemVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: { opacity: 1, y: 0 },
+  } as const;
+
   readonly activeSection = signal('Dashboard');
   readonly sidebarOpen = signal(false);
   readonly darkMode = signal(false);
@@ -59,4 +75,5 @@ export class MainLayout {
   setQuery(query: string): void {
     this.query.set(query);
   }
+
 }

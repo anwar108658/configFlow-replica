@@ -1,13 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
+import { NgmMotionDirective } from '@scripttype/ng-motion';
 
 @Component({
-  imports: [NgIcon],
+  imports: [NgIcon, NgmMotionDirective],
   selector: 'app-sidebar',
   styleUrl: './sidebar.css',
   templateUrl: './sidebar.html',
 })
 export class Sidebar {
+  readonly navHover = { x: 2 };
+  readonly navTap = { scale: 0.98 };
+  readonly scrimClosed = { opacity: 0 };
+  readonly scrimOpen = { opacity: 1 };
+
   @Input() activeSection = 'Dashboard';
   @Input() open = false;
   @Output() sectionChange = new EventEmitter<string>();
